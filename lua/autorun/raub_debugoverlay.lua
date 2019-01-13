@@ -23,9 +23,9 @@ end
 
 
 
-debugoverlay.Circle = function( position, angle, radius, lifetime, color, ignorez)
-	local circumference = 2*math.pi*radius
-	local parts = math.ceil(circumference/15)+2
+debugoverlay.Circle = function( pos, angle, radius, lifetime, color, ignorez)
+	local circ = 2*math.pi*radius
+	local parts = math.ceil(circ/15)+2
 	
 	local points = {}
 	for i = 0, parts-1 do
@@ -33,7 +33,7 @@ debugoverlay.Circle = function( position, angle, radius, lifetime, color, ignore
 		local a = p * 360
 		local point = Vector(0,0,radius)
 		point:Rotate(angle + Angle(0,0,a))
-		point = point + position
+		point = point + pos
 		table.insert(points, point)
 	end
 	

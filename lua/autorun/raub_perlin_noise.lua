@@ -4,10 +4,18 @@ PERLIN_NOISE_GEN.__index = PERLIN_NOISE_GEN
 
 
 
-function PERLIN_NOISE_GEN:create()
+function PERLIN_NOISE_GEN:create( speed, pers, oct, seed )
 	local gen = {}
 	setmetatable(gen,PERLIN_NOISE_GEN)
-	gen.seed = math.random(0,1000)
+	
+	gen.speed = speed
+	gen.pers = pers
+	gen.oct = oct
+	if seed then
+		gen.seed = seed
+	else
+		gen.seed = math.random( 0, 100000 )
+	end
 	return gen
 end
 
@@ -16,7 +24,7 @@ end
 
 function PERLIN_NOISE_GEN:prng(x)
 	// expects an integer
-	return util.SharedRandom("pnrg",0,1,x)
+	return util.SharedRandom( "pnrg", 0, 1, x + self.seed )
 end
 
 
@@ -42,15 +50,15 @@ end
 
 
 
-function PERLIN_NOISE_GEN:GenPerlinNoise(x, speed, persistence, octaves)
+function PERLIN_NOISE_GEN:gen( x )
 	// expects a float
 	local total = 0
 	local den = 0
-	for i = 0, oct - 1 do
+	for i = 0, self.oct - 1 do
 		local freq = math.pow(2,i)
-		local amp = math.pow(persistence,i)
+		local amp = math.pow(self.pers,i)
 		den = den + amp
-		total = total + self:InterpolatedNoise(x*speed*freq)*ampl
+		total = total + self:InterpolatedNoise(x*self.speed*freq)*amp
 	end
 	total = total / den
 	return total

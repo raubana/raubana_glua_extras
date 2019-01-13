@@ -5,10 +5,10 @@ local render = render
 
 
 
-local quad_width = 100000
-local quad_height = 100000
+local QUAD_WIDTH = 100000
+local QUAD_HEIGHT = 100000
 
-render.DrawStencilTestColors = function( context_3d )
+render.DrawStencilTestColors = function( context_3d, layers, opacity )
 	render.SetStencilEnable(true)
 	render.OverrideDepthEnable( true, false )
 	
@@ -19,24 +19,29 @@ render.DrawStencilTestColors = function( context_3d )
 	
 	render.SetColorMaterial()
 	
-	for i = 0, 16 do
+	for i = 0, layers do
 		render.SetStencilReferenceValue( i )
 		
-		local c = HSVToColor((i/17.0) * 360.0, 1.0, 1.0)
+		local c = HSVToColor(
+			(i/(layers)) * 300.0, 1.0,
+			Lerp(((i+1)%2)/2,
+			0.5,
+			1.0)
+		)
+		c.a = opacity or 64
 		
 		if context_3d then
 			cam.IgnoreZ(true)
 		
-			local localplayer = LocalPlayer()
-			local cam_pos = localplayer:EyePos()
-			local cam_angle = localplayer:EyeAngles()
+			local cam_pos = EyePos()
+			local cam_angle = EyeAngles()
 			local cam_normal = cam_angle:Forward()
 		
 			render.DrawQuadEasy(
 				cam_pos + cam_normal * 10, 
 				-cam_normal,
-				quad_width,
-				quad_height,
+				QUAD_WIDTH,
+				QUAD_HEIGHT,
 				c,
 				cam_angle.roll
 			)

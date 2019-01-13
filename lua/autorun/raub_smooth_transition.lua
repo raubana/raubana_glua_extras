@@ -1,3 +1,5 @@
+if not CLIENT then return end
+
 SMOOTH_TRANS = SMOOTH_TRANS or {}
 SMOOTH_TRANS.__index = SMOOTH_TRANS
 
@@ -84,7 +86,7 @@ end
 
 function SMOOTH_TRANS:SetDuration(duration)
 	if duration != self._transition_duration then
-		// TODO: Take into account that the transition may have been active during this change
+		-- TODO: Take into account that the transition may have been active during this change
 		self._transition_duration = duration
 	end
 end
