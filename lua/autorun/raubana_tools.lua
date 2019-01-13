@@ -1,0 +1,6 @@
+AddCSLuaFile( "raub_debugoverlay.lua" )
+AddCSLuaFile( "raub_global_functions.lua" )
+AddCSLuaFile( "raub_math.lua" )
+AddCSLuaFile( "raub_perlin_noise.lua" )
+AddCSLuaFile( "raub_render_stencil.lua" )
+AddCSLuaFile( "raub_smooth_transition.lua" )
